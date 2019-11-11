@@ -1,0 +1,69 @@
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+{{#each succes}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action="/client/createClient" method="POST">
+<br>
+<br>
+<div class="home_title"><h2 style="font-size:40px">Enter the costumer information</h2>
+        <br>
+        <br>
+        <label style="color:white ">Number of identification card
+            <br>
+            <input type="text" name="idClient" id="idClient">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Name of the client
+            <br>
+            <input type="text" name="name" id="name">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Date of birth
+            <br>
+            <input type="date" name="birthdate" id="birthdate">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Username 
+            <br>
+            <input type="text" name="username" id="username">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Phone number 
+            <br>
+            <input type="text" name="phone" id="phone">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Email 
+            <br>
+            <input type="text" name="email" id="email">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Password 
+            <br>
+            <input type="text" name="password" id="password">
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-secondary" type="submit"> Create</button>
+        <br>
+        <br>
+</div>
+</form>
