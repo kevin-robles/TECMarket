@@ -1,0 +1,46 @@
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+{{#each succesful}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<div class="jumbotrn mt-4">
+    
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+            <a class="navbar-brand" href="#">Welcome to TECMarket</a>  
+        </nav>
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/indexapp" method="POST">
+                        <div class="form-group">
+                                <input type="text" id="email" name="email" placeholder="email" class="form-control">
+                        </div>    
+                        <div class="form-group">
+                                <input type="password" id="password" name="password" placeholder="password" class="form-control">
+                        </div>
+                        <div>
+                            <button style="background-color: darkturquoise;" type="submit" class="btn btn-success btn-block">Log in</button>
+                        </div>
+                        <div>
+                            <a href="" style="background-color: gainsboro;" class="btn btn-primary btn-block">Sign in</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</div>
+<br><br>
+
