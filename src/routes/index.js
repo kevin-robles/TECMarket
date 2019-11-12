@@ -5,13 +5,13 @@ const client = require("../models/client");
 const bcrypt = require('bcrypt');
 
 router.post('/Indexapp',async(req,res)=>{
-    var email = req.body.email;
+    var username = req.body.username;
     var password = req.body.password;
     var errors = [];
     var finalPassword = "";
     var type;
 
-    await employee.findOne({email:email}, async(err,emplo)=>{
+    await employee.findOne({username:username}, async(err,emplo)=>{
         if(err){
             console.log(err);
         }
@@ -21,7 +21,7 @@ router.post('/Indexapp',async(req,res)=>{
         }
     })
 
-    await client.findOne({email:email}, async(err,client)=>{
+    await client.findOne({username:username}, async(err,client)=>{
         if(err){
             console.log(err);
         }
@@ -45,11 +45,13 @@ router.post('/Indexapp',async(req,res)=>{
 
         if(resp){
             
-            if(tipo=="Administrator"){
-                res.render("./indexAdministrator");
-            }else if(tipo=="Worker"){
-                res.render("./indexWorker");
-            }else if(tipo=="client"){
+            if(type=="Administrator"){
+                res.render("./indexEmployee");
+
+            }else if(type=="Worker"){
+                res.render("./indexEmployee");
+                
+            }else if(type=="client"){
                 res.render("./indexClient");
             }
         }else{

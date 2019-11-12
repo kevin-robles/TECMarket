@@ -36,6 +36,8 @@ app.use(session({
 app.use(require('./routes/index'));
 app.use(require('./routes/client'));
 
+app.use(require('./routes/employee'));
+
 
 //static files
 app.use(express.static(path.join(__dirname,'public')));
