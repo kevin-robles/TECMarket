@@ -13,7 +13,7 @@ router.post('/client/createClient',async(req,res)=>{
     var email= req.body.email;
     var password= req.body.password;
 
-    var sucess=[];
+    var success=[];
     var errors=[];
 
     if(!idClient){
@@ -57,13 +57,13 @@ router.post('/client/createClient',async(req,res)=>{
                 });
                 return;
             }
-            
+
         })
         const newClient= new client ({idClient,name,phone,email,birthdate,username,password});
         newClient.save();
-        sucess.push({text:"The client was created successfully"});
+        success.push({text:"The client was created successfully"});
         res.render("./indexapp",{
-            sucess
+            success
         });
     }
 
