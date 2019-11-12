@@ -1,0 +1,40 @@
+{{#each errores}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action='/employee/registerEmployee' method="POST">
+<br>
+<br>
+<div class="home_title"><h2 style="font-size:40px">Enter the employee information</h2>
+        <br>
+        <br>
+        <label style="color:white ">Username
+            <br>
+            <input type="text" name="username" id="username">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">Password
+            <br>
+            <input type="password" name="password" id="password">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Type of employee
+            <br>
+            <select type="text" id="type" name="type" style="width:180px">
+                <option>Administrator</option>
+                <option>Worker</option>
+            </select>
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit"> Create</button>
+        <br>
+        <br>
+        </div>
+    </form>
