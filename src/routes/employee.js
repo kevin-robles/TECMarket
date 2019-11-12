@@ -41,6 +41,7 @@ router.post('/employee/registerProduct',async(req,res)=>{
     var price = req.body.price;
     var photo = req.body.photo;
     var nameSupermarket = req.body.nameSupermarket;
+    console.log(photo);
 
     var success = [];
     var errors = [];
