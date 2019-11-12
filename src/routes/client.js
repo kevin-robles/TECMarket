@@ -4,15 +4,12 @@ const employee = require("../models/employee");
 const client = require("../models/client");
 const bcrypt = require('bcrypt');
 
-
-
-
 router.post('/client/createClient',async(req,res)=>{
     var idClient= req.body.idClient;
     var name= req.body.name;
     var birthdate=req.body.birthdate;
     var username= req.body.username;
-    var telephone= req.body.phone;
+    var phone= req.body.phone;
     var email= req.body.email;
     var password= req.body.password;
 
@@ -31,8 +28,8 @@ router.post('/client/createClient',async(req,res)=>{
     if(!username){
         errors.push({text:"You must enter the username"});
     }
-    if(!telephone){
-        errors.push({text:"You must enter the telephone"});
+    if(!phone){
+        errors.push({text:"You must enter the phone number"});
     }
     if(!email){
         errors.push({text:"You must enter the email"});
@@ -47,21 +44,22 @@ router.post('/client/createClient',async(req,res)=>{
             name,
             birthdate,
             username,
-            telephone,
+            phone,
             email,
             password
         });
     } else{
         await client.findOne({idClient:idClient},async(err,founded)=>{
             if(founded){
-                errors.push("El pasajero ingresada ya existe");
-                res.render("./administrador/usuarioCrear",{
+                errors.push("The passanger already exists");
+                res.render("./indexapp",{
                     errors
                 });
                 return;
             }
+            
         })
-        const newClient= new client ({idClient,name,birthdate,username,telephone,email,password});
+        const newClient= new client ({idClient,name,phone,email,birthdate,username,password});
         newClient.save();
         sucess.push({text:"The client was created successfully"});
         res.render("./indexapp",{

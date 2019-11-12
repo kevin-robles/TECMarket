@@ -34,6 +34,7 @@ app.use(session({
 
 //routes
 app.use(require('./routes/index'));
+app.use(require('./routes/client'));
 
 
 //static files
