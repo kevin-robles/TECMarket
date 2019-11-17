@@ -44,7 +44,7 @@ router.post('/Indexapp',async(req,res)=>{
         }
 
         if(resp){
-            
+            console.log(type);
             if(type=="Administrator"){
                 res.render("./indexEmployee");
 
@@ -52,7 +52,7 @@ router.post('/Indexapp',async(req,res)=>{
                 res.render("./indexEmployee");
                 
             }else if(type=="client"){
-                res.render("./indexClient");
+                //res.render("./indexClient");
             }
         }else{
             errors.push({text:"Incorrect Password"});

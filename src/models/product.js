@@ -22,8 +22,8 @@ const productSchema = new Schema({
         required : true
     },
     photo:{
-        type: String,
-        required : true
+        data: Buffer,
+        contentType: String
     },
     nameSupermarket:{
         type: String,

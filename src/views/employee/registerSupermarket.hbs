@@ -1,0 +1,42 @@
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action='/employee/registerSupermarket' method="POST">
+<br>
+<br>
+<div class="home_title"><h2 style="font-size:40px">Enter the supermarket information</h2>
+        <br>
+        <br>
+        <h3>Method 1</h3>
+        <br>
+        <label style="color:white ">Address
+            <br>
+            <input type="text" name="address" id="address">
+        </label>
+        <br>
+        <br>
+        <h3>Method 2</h3>
+        <br>
+        <label style="color:white">Latitude
+            <br>
+            <input type="text" name="latitude" id="latitude">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">Longitude
+            <br>
+            <input type="text" name="longitude" id="longitude">
+        </label>
+        <br>
+        <br>
+        
+        <button class="btn btn-primary" type="submit"> Search</button>
+        <br>
+        <br>
+        </div>
+    </form>
