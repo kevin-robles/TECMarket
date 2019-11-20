@@ -68,10 +68,24 @@ router.post('/search', (req,res)=>{
 
 router.post('/add/searchByLatLng', (req,res)=>{
   
-    var latitude = req.body.latitude;
-    var longitude = req.body.longitude;
-    
+    var latitude = String(req.body.latitude)+",";
+    var longitude = String(req.body.longitude);
 
+    var latlng= latitude+longitude;
+    
+    axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?&rankby=distance&type=food&key=AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do',{
+    
+    params:{
+        location:latlng,
+        }
+    })
+    .then(function(response){
+        console.log(response.data.results)
+
+    })
+    .catch(function(err){
+        console.log("perra")
+    })
 })
 
 module.exports = router;
