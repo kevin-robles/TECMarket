@@ -1,0 +1,27 @@
+<div class="jumbotrn mt-4">
+    <body>
+        <h1>Please type the sucursal name</h1>
+        <br><br>
+        <form action="/search" method="POST">
+          <input size="150" type="text" id="entrada" name="entrada">
+          <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do&libraries=places"></script>
+
+          <script>
+            var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(9.7489166, -83.7534256),
+            new google.maps.LatLng(9.7489166, -83.7534256));
+              
+            var input = document.getElementById('entrada');
+            console.log(input)
+            var options = {
+                bounds: defaultBounds,
+                types: ['establishment']
+            };
+            
+            autocomplete = new google.maps.places.Autocomplete(input, options);
+          </script><br><br>
+        <button class="btn btn-primary" type="submit">  Add</button>
+        </form>
+    </body>
+</div>
+<br><br>

@@ -68,4 +68,8 @@ router.get('/', (req,res)=>{
     res.render('Indexapp');
 })
 
+router.get('/manage', (req,res)=>{
+    res.render('indexManageSucursal');
+})
+
 module.exports = router;
