@@ -5,9 +5,11 @@ const exphbs = require('express-handlebars');
 const methodOverride = require("method-override");
 const session = require('express-session');
 
+
 //starting
 const DB = require('./config/db');
 DB();
+
 
 
 //configuration
@@ -35,9 +37,9 @@ app.use(session({
 //routes
 app.use(require('./routes/index'));
 app.use(require('./routes/client'));
-
 app.use(require('./routes/employee'));
 app.use(require('./routes/manageSucursal'));
+app.use(require('./routes/migration'));
 
 //static files
 app.use(express.static(path.join(__dirname,'public')));
