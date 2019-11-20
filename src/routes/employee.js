@@ -34,39 +34,6 @@ router.post('/employee/registerEmployee',async(req,res)=>{
     }
 })
 
-router.post('/employee/registerSupermarket',async(req,res)=>{
-    var address = req.body.address;
-    var latitude = req.body.latitude;
-    var longitude = req.body.longitude;
-
-    var errors = [];
-
-    if(!address && !latitude && !longitude){
-        errors.push({text:"Must enter at least one method"});
-    }
-    else if(address && latitude){
-        errors.push({text:"Must enter only one method"});
-    }
-    else if(address && longitude){
-        errors.push({text:"Must enter only one method"});
-    }
-    else if(address && !latitude && !longitude){
-        //por direccion
-    }
-    else if(!address && latitude && longitude){
-        //por latitud y longitud
-    }else{
-        errors.push({text:"For the method 2 you must enter the latitude and longitude"});
-    }
-    if(errors.length>0){
-        res.render("./employee/registerSupermarket",{
-            errors
-        });
-    }else{
-        //Continuar
-    }
-
-})
 
 //Falta meter la foto
 router.post('/employee/registerProduct',async(req,res)=>{
@@ -106,7 +73,7 @@ router.post('/employee/registerProduct',async(req,res)=>{
         });
     }else{
         await supermarket.findOne({name:nameSupermarket},async(err,market)=>{
-            if(market){//poner !market
+            if(!market){
                 errors.push({text:"The supermarket is not found"});
                 res.render("./employee/registerProduct",{
                     errors
@@ -139,7 +106,7 @@ router.get('/employee/registerProduct', (req,res)=>{
     res.render("employee/registerProduct");
 })
 router.get('/employee/registerSupermarket', (req,res)=>{
-    res.render("employee/registerSupermarket");
+    res.render("manageSucursal/manageAddSucursal");
 })
 
 module.exports = router;

@@ -18,14 +18,6 @@ router.get('/manage/byLatLng', (req,res)=>{
     res.render("manageSucursal/manageAddSucursalLatLng");
 })
 
-//manage product
-router.get('/gestionar/producto', (req,res)=>{
-    
-})
-//consult
-router.get('/gestionar/consultar', (req,res)=>{
-    
-})
 
 //posts
 router.post('/search', (req,res)=>{
@@ -56,8 +48,8 @@ router.post('/search', (req,res)=>{
         const newSupermarket= new supermarket({name,latitude,longitude,address,description,photo,internationalPhone,rating,schedule,website});
         newSupermarket.save();
         console.log(newSupermarket)
-        success.push({text:"The client was created successfully"});
-        res.render("./indexManageSucursal",{
+        success.push({text:"The sucursal was created successfully"});
+        res.render("./indexEmployee",{
             success,
         });
 
@@ -84,7 +76,7 @@ router.post('/add/searchByLatLng', (req,res)=>{
 
     })
     .catch(function(err){
-        console.log("perra")
+        console.log(err)
     })
 })
 
