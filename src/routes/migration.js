@@ -2,8 +2,9 @@ const express= require('express');
 const axios = require('axios');
 const router = express.Router();
 const neo4j = require("neo4j-driver").v1;
-const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("daniel", "123"));
+const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "123"));
 const session2= driver.session();
+
 //MODELOS
 const supermarket = require("../models/supermarket");
 const client = require("../models/client");
@@ -18,8 +19,6 @@ router.get('/migration', async (req,res)=>{
     const clients = await client.find();
     const products = await product.find();
     const employees = await employee.find();
-
-
 
     //Productos y supermercado
     var arraySuperMProduct=[];
@@ -99,9 +98,6 @@ router.get('/migration', async (req,res)=>{
         contadorSupermarket+=100;
     }
     //fin productos por supermercado
-
-
-
     //
 
 })

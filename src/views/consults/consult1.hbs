@@ -1,0 +1,25 @@
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action='/consults/consult1' method="POST">
+<br>
+<br>
+<div class="home_title"><h2 style="font-size:40px">Enter the client information</h2>
+        <br>
+        <br>
+        <label style="color:white ">Id client
+            <br>
+            <input type="text" name="idClient" id="idClient">
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit"> Consult</button>
+        <br>
+        <br>
+        </div>
+    </form>
