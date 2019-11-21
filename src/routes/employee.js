@@ -37,12 +37,14 @@ router.post('/employee/registerEmployee',async(req,res)=>{
 
 //Falta meter la foto
 router.post('/employee/registerProduct',async(req,res)=>{
+    
     var idProduct = req.body.code;
     var name = req.body.name;
     var description = req.body.description;
     var description = req.body.description;
     var price = req.body.price;
     var photo = req.body.photo;
+    console.log(photo);
     var nameSupermarket = req.body.nameSupermarket;
     var quantity = req.body.quantity;
 
@@ -89,7 +91,7 @@ router.post('/employee/registerProduct',async(req,res)=>{
                     }else{
                         var path = 'C:/products/'+photo;
                         console.log(path);
-                        var NewProduct = new product;//({idProduct,name,description,price,photo,nameSupermarket});
+                        var NewProduct = new product;
                         NewProduct.idProduct = idProduct;
                         NewProduct.name = name;
                         NewProduct.description = description;
