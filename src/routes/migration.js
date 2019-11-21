@@ -2,7 +2,7 @@ const express= require('express');
 const axios = require('axios');
 const router = express.Router();
 const neo4j = require("neo4j-driver").v1;
-const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "123"));
+const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("progra", "123"));
 const session2= driver.session();
 
 //MODELOS
