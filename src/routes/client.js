@@ -1,8 +1,10 @@
 const express= require('express');
 const router = express.Router();
-const employee = require("../models/employee");
+const supermarket = require("../models/supermarket");
 const client = require("../models/client");
-const bcrypt = require('bcrypt');
+const product = require("../models/product");
+const purchase = require("../models/purchase");
+
 
 router.post('/client/createClient',async(req,res)=>{
     var idClient= req.body.idClient;
@@ -38,39 +40,139 @@ router.post('/client/createClient',async(req,res)=>{
         errors.push({text:"You must enter the password"});
     }
     if(errors.length>0){
-        res.render("./cliente/usuarioCrear",{
-            errors,
-            idClient,
-            name,
-            birthdate,
-            username,
-            phone,
-            email,
-            password
-        });
+        res.render("./client/createClient",{errors});
     } else{
         await client.findOne({idClient:idClient},async(err,founded)=>{
             if(founded){
                 errors.push("The passanger already exists");
+                res.render("./indexapp",{errors});
+            }else{
+                const newClient= new client ({idClient,name,phone,email,birthdate,username,password});
+                newClient.save();
+                success.push({text:"The client was created successfully"});
                 res.render("./indexapp",{
+                    success
+                });
+            }
+        })
+    }
+});
+
+router.post('/client/registerPurchase',async(req,res)=>{
+    var supermarketName = req.body.supermarketName;
+    var status = req.body.status;
+    var extraInformation = req.body.extraInformation;
+
+    var errors=[];
+    
+    if(!supermarketName){
+        errors.push({text:"You must enter the supermarket name"});
+    }
+    if(!status){
+        errors.push({text:"You must enter the status of the purchase"});
+    }
+    if(errors.length>0){
+        res.render("./client/registerPurchase",{errors});
+    }else{
+        await supermarket.findOne({name:supermarketName},async(err,market)=>{
+            if(!market){
+                errors.push({text:"The supermarket is not found"});
+                res.render("./client/registerPurchase",{
                     errors
                 });
-                return;
-            }
+            }else{
+                require('../index').currentPurchase.supermarketName = supermarketName;
+                require('../index').currentPurchase.status = status;
+                require('../index').currentPurchase.extraInformation = extraInformation;
+                require('../index').currentPurchase.client = require('../index').currentClient;
 
+                res.render("./client/addProducts");    
+            }
         })
-        const newClient= new client ({idClient,name,phone,email,birthdate,username,password});
-        newClient.save();
-        success.push({text:"The client was created successfully"});
-        res.render("./indexapp",{
-            success
+    }
+})
+
+router.post('/client/addProducts',async(req,res)=>{
+    var idProduct = req.body.idProduct;
+    var quantity = req.body.quantity;
+
+    var errors=[];
+    var success=[];
+
+    if(!idProduct){
+        errors.push({text:"You must enter the product code"});
+    }
+    if(!quantity){
+        errors.push({text:"You must enter the quantity"});
+    }
+    if(errors.length>0){
+        res.render("./client/addProducts",{errors});
+    }else{
+
+        var supermarketName = require('../index').currentPurchase.supermarketName;
+
+        await product.findOne({nameSupermarket:supermarketName,idProduct:idProduct},async(err,found)=>{
+            if(!found){
+                errors.push({text:"The product is not found"});
+                res.render("./client/addProducts",{
+                    errors
+                });
+            }else{
+                if(parseInt(found.quantity)<parseInt(quantity)){
+                    errors.push({text:"Not enough quantity in inventory"});
+                    res.render("./client/addProducts",{errors});
+                }else{
+                    require('../index').currentPurchase.products.push({idProduct:idProduct,quantity:quantity,price:found.price});
+
+                    success.push({text:"Product added successfully"})
+                    res.render("./client/addProducts",{success});
+                }
+                
+            }
+        })
+    }
+})
+
+router.post('/client/finishPurchase',async(req,res)=>{
+    var success = [];
+    require('../index').currentPurchase.save();
+
+    var i = 0;
+    var len = require('../index').currentPurchase.products.length;
+    while (i<len){
+        var idProduct = require('../index').currentPurchase.products[i].idProduct;
+        var quantity = require('../index').currentPurchase.products[i].quantity;
+
+        await product.findOne({idProduct:idProduct},function(err,resp){
+            if(err){
+                console.log(err);
+            }else{
+                var oldQuantity = resp.quantity;
+                var newQ = (parseInt(oldQuantity)-parseInt(quantity));
+                resp.quantity = newQ;
+                resp.save();
+            }
         });
+    i++;
     }
 
-});
+    success.push({text:"Successful registered purchase"});
+    res.render("./indexClient",{success});
+})
 
 router.get('/client/create', (req,res)=>{
     res.render("client/createClient");
+})
+
+router.get('/client/registerPurchase', (req,res)=>{
+    res.render("client/registerPurchase");
+})
+
+router.get('/client/purchasesHistory', async(req,res)=>{
+    var idClient = require('../index').currentClient;
+    const purchases = await purchase.find({client:idClient});
+
+    res.render("client/purchasesHistory",{purchases});
 })
 
 module.exports = router;

@@ -44,7 +44,7 @@ router.post('/employee/registerProduct',async(req,res)=>{
     var price = req.body.price;
     var photo = req.body.photo;
     var nameSupermarket = req.body.nameSupermarket;
-    console.log(photo);
+    var quantity = req.body.quantity;
 
     var success = [];
     var errors = [];
@@ -67,6 +67,9 @@ router.post('/employee/registerProduct',async(req,res)=>{
     if(!nameSupermarket){
         errors.push({text:"Must enter the supermarket name"});
     }
+    if(!quantity){
+        errors.push({text:"Must enter the quantity"});
+    }
     if(errors.length>0){
         res.render("./employee/registerProduct",{
             errors
@@ -79,20 +82,29 @@ router.post('/employee/registerProduct',async(req,res)=>{
                     errors
                 });
             }else{
-                var path = 'C:/products/'+photo;
-                console.log(path);
-                var NewProduct = new product;//({idProduct,name,description,price,photo,nameSupermarket});
-                NewProduct.idProduct = idProduct;
-                NewProduct.name = name;
-                NewProduct.description = description;
-                NewProduct.price = price;
-                NewProduct.nameSupermarket = nameSupermarket;
-                NewProduct.photo.data = fs.readFileSync(path);
-                NewProduct.photo.contentType = 'image/png';
+                await product.findOne({idProduct:idProduct},async(err,pro)=>{
+                    if(pro){
+                        errors.push({text:"The product code already exist"});
+                        res.render("./employee/registerProduct",{errors});
+                    }else{
+                        var path = 'C:/products/'+photo;
+                        console.log(path);
+                        var NewProduct = new product;//({idProduct,name,description,price,photo,nameSupermarket});
+                        NewProduct.idProduct = idProduct;
+                        NewProduct.name = name;
+                        NewProduct.description = description;
+                        NewProduct.price = price;
+                        NewProduct.nameSupermarket = nameSupermarket;
+                        NewProduct.photo.data = fs.readFileSync(path);
+                        NewProduct.photo.contentType = 'image/png';
+                        NewProduct.quantity = quantity;
+                        
+                        NewProduct.save();
+                        success.push({text:"Successful registered product"});
+                            res.render("./indexEmployee",{success});
+                    }
+                })
                 
-                NewProduct.save();
-                success.push({text:"Successful registered product"});
-                    res.render("./indexEmployee",{success});
             }
         })
     }
