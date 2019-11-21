@@ -15,6 +15,7 @@ const purchaseSchema = new Schema({
     },
     extraInformation:{
         type: String,
+        unique:true
     },
     client:{
         type: String,
