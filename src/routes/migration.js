@@ -22,7 +22,7 @@ router.get('/migration', async (req,res)=>{
     const employees = await employee.find();
     const purchases = await purchase.find();
 
-<
+
     //este array contiene los productos por pedido es IMPORTANTE
     var productsFinal=[];
     //Productos y supermercado
