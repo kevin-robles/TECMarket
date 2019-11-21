@@ -22,6 +22,10 @@ const purchaseSchema = new Schema({
     products:{
         type: Array,
         default: []
+    },
+    finalPrice:{
+        type: Number,
+        default:0
     }
 })
 

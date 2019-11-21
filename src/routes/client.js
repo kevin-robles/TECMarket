@@ -122,7 +122,13 @@ router.post('/client/addProducts',async(req,res)=>{
                     errors.push({text:"Not enough quantity in inventory"});
                     res.render("./client/addProducts",{errors});
                 }else{
-                    require('../index').currentPurchase.products.push({idProduct:idProduct,quantity:quantity,price:found.price});
+                    
+                    
+                    var current = require('../index').currentPurchase.finalPrice;
+                    var price = (parseInt(found.price) * parseInt(quantity)); 
+
+                    require('../index').currentPurchase.products.push({idProduct:idProduct,quantity:quantity,unitPrice:found.price});
+                    require('../index').currentPurchase.finalPrice = (parseInt(current)+parseInt(price));
 
                     success.push({text:"Product added successfully"})
                     res.render("./client/addProducts",{success});
