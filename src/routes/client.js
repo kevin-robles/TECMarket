@@ -205,10 +205,23 @@ router.post('/client/selectSupermarket',async(req,res)=>{
                 });
             }else{
                 const products = await product.find({nameSupermarket:supermarketName});
-                var thumb = new Buffer(products[0].photo.data).toString('base64');
-                console.log(thumb)
-                fs.writeFileSync(thumb);
-                res.render("client/supermarketProducts",{products});
+                var paths = [];
+                var i =0;
+                while (i < products.length){
+                    var path = './images/'+i+'.jpg';
+                    var thumb = new Buffer.from(products[i].photo.data,'base64');
+                    fs.writeFile(path,thumb,function(err) {
+                        if(err) {
+                            console.log(err);
+                        } else {
+                            console.log("The file was saved!");
+                        }
+                    });
+                    products[i].photo.contentType = path;
+                    paths.push({path:path});
+                    i++;
+                };
+                res.render("client/supermarketProducts",{products,paths});
             }
         })
     }
