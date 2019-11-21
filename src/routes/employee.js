@@ -89,7 +89,7 @@ router.post('/employee/registerProduct',async(req,res)=>{
                     }else{
                         var path = 'C:/products/'+photo;
                         console.log(path);
-                        var NewProduct = new product;//({idProduct,name,description,price,photo,nameSupermarket});
+                        var NewProduct = new product;
                         NewProduct.idProduct = idProduct;
                         NewProduct.name = name;
                         NewProduct.description = description;

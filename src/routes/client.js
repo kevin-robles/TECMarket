@@ -4,6 +4,7 @@ const supermarket = require("../models/supermarket");
 const client = require("../models/client");
 const product = require("../models/product");
 const purchase = require("../models/purchase");
+const fs = require('fs');
 
 
 router.post('/client/createClient',async(req,res)=>{
@@ -64,6 +65,9 @@ router.post('/client/registerPurchase',async(req,res)=>{
     var extraInformation = req.body.extraInformation;
 
     var errors=[];
+    console.log(require('../index').currentPurchase);
+    require('../index').currentPurchase = new purchase;
+    console.log(require('../index').currentPurchase);
     
     if(!supermarketName){
         errors.push({text:"You must enter the supermarket name"});
@@ -81,6 +85,7 @@ router.post('/client/registerPurchase',async(req,res)=>{
                     errors
                 });
             }else{
+                
                 require('../index').currentPurchase.supermarketName = supermarketName;
                 require('../index').currentPurchase.status = status;
                 require('../index').currentPurchase.extraInformation = extraInformation;
@@ -161,7 +166,6 @@ router.post('/client/finishPurchase',async(req,res)=>{
         });
     i++;
     }
-
     success.push({text:"Successful registered purchase"});
     res.render("./indexClient",{success});
 })
@@ -179,6 +183,36 @@ router.get('/client/purchasesHistory', async(req,res)=>{
     const purchases = await purchase.find({client:idClient});
 
     res.render("client/purchasesHistory",{purchases});
+})
+
+router.get('/client/viewProductSupermarket', async(req,res)=>{
+    res.render("client/selectSupermarket");
+})
+
+router.post('/client/selectSupermarket',async(req,res)=>{
+    var supermarketName = req.body.supermarketName;
+    var errors = [];
+
+    if(!supermarketName){
+        errors.push({text:"You must enter the supermarket name"});
+        res.render('./client/selectSupermarket',{errors});
+    }else{
+        await supermarket.findOne({name:supermarketName},async(err,market)=>{
+            if(!market){
+                errors.push({text:"The supermarket is not found"});
+                res.render("./client/selectSupermarket",{
+                    errors
+                });
+            }else{
+                const products = await product.find({nameSupermarket:supermarketName});
+                var thumb = new Buffer(products[0].photo.data).toString('base64');
+                console.log(thumb)
+                fs.writeFileSync(thumb);
+                res.render("client/supermarketProducts",{products});
+            }
+        })
+    }
+
 })
 
 module.exports = router;

@@ -1,0 +1,23 @@
+<br><br>
+<h4>Purchases TECMarket</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#each products}}
+    <div class="col-md-3">
+        <div class="purchase">
+            <div class="body">
+                <h5 class="code">
+                  Product code:  {{idProduct}}
+                </h5>
+                <p>Name: {{name}}</p>
+                <p>Description: {{description}}</p>
+                <p>Unit price: {{price}}</p>
+                <p>Quantity available: {{quantity}}</p>
+                <p>Supermarket name: {{nameSupermarket}}</p>     
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<br><br><br>

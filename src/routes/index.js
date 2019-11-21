@@ -46,7 +46,6 @@ router.post('/Indexapp',async(req,res)=>{
         }
 
         if(resp){
-            console.log(type);
             if(type=="Administrator"){
                 res.render("./indexEmployee");
 
