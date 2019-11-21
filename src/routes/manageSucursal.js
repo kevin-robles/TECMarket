@@ -18,14 +18,6 @@ router.get('/manage/byLatLng', (req,res)=>{
     res.render("manageSucursal/manageAddSucursalLatLng");
 })
 
-//manage product
-router.get('/gestionar/producto', (req,res)=>{
-    
-})
-//consult
-router.get('/gestionar/consultar', (req,res)=>{
-    
-})
 
 //posts
 router.post('/search', (req,res)=>{
@@ -56,8 +48,8 @@ router.post('/search', (req,res)=>{
         const newSupermarket= new supermarket({name,latitude,longitude,address,description,photo,internationalPhone,rating,schedule,website});
         newSupermarket.save();
         console.log(newSupermarket)
-        success.push({text:"The client was created successfully"});
-        res.render("./indexManageSucursal",{
+        success.push({text:"The sucursal was created successfully"});
+        res.render("./indexEmployee",{
             success,
         });
 
@@ -68,10 +60,24 @@ router.post('/search', (req,res)=>{
 
 router.post('/add/searchByLatLng', (req,res)=>{
   
-    var latitude = req.body.latitude;
-    var longitude = req.body.longitude;
-    
+    var latitude = String(req.body.latitude)+",";
+    var longitude = String(req.body.longitude);
 
+    var latlng= latitude+longitude;
+    
+    axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?&rankby=distance&type=food&key=AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do',{
+    
+    params:{
+        location:latlng,
+        }
+    })
+    .then(function(response){
+        console.log(response.data.results)
+
+    })
+    .catch(function(err){
+        console.log(err)
+    })
 })
 
 module.exports = router;

@@ -28,6 +28,10 @@ const productSchema = new Schema({
     nameSupermarket:{
         type: String,
         required : true
+    },
+    quantity:{
+        type:Number,
+        required:true
     }
 })
 

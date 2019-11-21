@@ -10,6 +10,7 @@ router.post('/Indexapp',async(req,res)=>{
     var errors = [];
     var finalPassword = "";
     var type;
+    var idClient;
 
     await employee.findOne({username:username}, async(err,emplo)=>{
         if(err){
@@ -26,6 +27,7 @@ router.post('/Indexapp',async(req,res)=>{
             console.log(err);
         }
         if(client){
+            idClient = client.idClient;
             type = "client";
             finalPassword = client.password;  
         }
@@ -52,7 +54,8 @@ router.post('/Indexapp',async(req,res)=>{
                 res.render("./indexEmployee");
                 
             }else if(type=="client"){
-                //res.render("./indexClient");
+                require('../index').currentClient = idClient;
+                res.render("./indexClient");
             }
         }else{
             errors.push({text:"Incorrect Password"});
