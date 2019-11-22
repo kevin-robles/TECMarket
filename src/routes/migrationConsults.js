@@ -74,10 +74,7 @@ router.post('/consults/consult5',async(req,res)=>{
                     })
                     contadorPorductos+=1
                 }
-
-
                 console.log(arrayFinaLProductos)
-
             })
 
         })      
