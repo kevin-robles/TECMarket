@@ -45,7 +45,7 @@ router.post('/client/createClient',async(req,res)=>{
     } else{
         await client.findOne({idClient:idClient},async(err,founded)=>{
             if(founded){
-                errors.push("The passanger already exists");
+                errors.push("The client already exists");
                 res.render("./indexapp",{errors});
             }else{
                 const newClient= new client ({idClient,name,phone,email,birthdate,username,password});

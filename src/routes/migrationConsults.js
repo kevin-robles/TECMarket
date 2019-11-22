@@ -29,7 +29,13 @@ router.post('/consults/consult4',async(req,res)=>{
     if(!idClient){
         errors.push({text:"You must enter the id of the client"});
     }else{
-       
+        session3
+        .run('MATCH (c:Client) where c.idClient="'+idClient+'" return c')
+        .then(function(result){
+            console.log(result.records[0]._fields[0].properties)
+        })
+        .catch(function(err){
+        })
     }
 })
 router.post('/consults/consult5',async(req,res)=>{
@@ -37,8 +43,6 @@ router.post('/consults/consult5',async(req,res)=>{
     var success=[];
     var errors=[];
     var arrayFinaLProductos=[];
-
-    
 
     if(!idClient){
         errors.push({text:"You must enter the id of the client"});
@@ -59,22 +63,25 @@ router.post('/consults/consult5',async(req,res)=>{
                     session3
                     .run('MATCH (p:Product) where p.idProduct="'+ids[contadorPorductos]+'" return p')
                     .then(function(result){
-                        arrayFinaLProductos.push(result.records[0]._fields[0].properties.name)
+                        var x =result.records[0]._fields[0].properties.name
+                        console.log(x)
+                        res.render("consults/showConsult",{
+                            x
+                        });
                         
                     })
                     .catch(function(err){
                     })
-
                     contadorPorductos+=1
                 }
+
 
                 console.log(arrayFinaLProductos)
 
             })
 
         })      
-    }
-      
+    } 
 
 })
 
