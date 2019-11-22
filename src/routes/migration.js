@@ -12,7 +12,6 @@ const product = require("../models/product");
 const employee = require("../models/employee");
 const purchase = require("../models/purchase");
 
-
 router.get('/migration', async (req,res)=>{
     //PASAR DE MONGO A NEO4J
 
