@@ -2,7 +2,7 @@ const express= require('express');
 const axios = require('axios');
 const router = express.Router();
 const neo4j = require("neo4j-driver").v1;
-const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "123"));
+const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("progra", "123"));
 const session3= driver.session();
 
 //MODELOS
@@ -36,17 +36,48 @@ router.post('/consults/consult5',async(req,res)=>{
     var idClient=req.body.idClient;
     var success=[];
     var errors=[];
+    var arrayFinaLProductos=[];
+
+    
 
     if(!idClient){
         errors.push({text:"You must enter the id of the client"});
     }else{
         session3
-        .run("MATCH ((c:Client) WHERE c.idClient='"+idClient+"') RETURN c ")
+        .run('MATCH (c:Client) where not c.idClient="'+idClient+'" return c')
         .then(function(result){ 
-            console.log(result.records[0]._fields[0].properties)
-        })
+
+            session3
+            .run('MATCH (p:Purchases) where p.client="'+result.records[0]._fields[0].properties.idClient+'" return p')
+            .then(function(result){ 
+                var ids= String(result.records[0]._fields[0].properties.products).split(",")
+                
+                var contadorPorductos=1;
+                while(ids.length>contadorPorductos){
+                    
+
+                    session3
+                    .run('MATCH (p:Product) where p.idProduct="'+ids[contadorPorductos]+'" return p')
+                    .then(function(result){
+                        arrayFinaLProductos.push(result.records[0]._fields[0].properties.name)
+                        
+                    })
+                    .catch(function(err){
+                    })
+
+                    contadorPorductos+=1
+                }
+
+                console.log(arrayFinaLProductos)
+
+            })
+
+        })      
     }
+      
+
 })
+
 router.get('/consults', (req,res)=>{
     res.render("consults/menuConsults");
 })

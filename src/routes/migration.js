@@ -58,6 +58,7 @@ router.get('/migration', async (req,res)=>{
         var rating=arraySuperMProduct[0].rating;
         var website=arraySuperMProduct[0].website;
         var nameS=arraySuperMProduct[0].name;
+        
 
         //agrega el supermercado primero
         session2
