@@ -378,7 +378,7 @@ router.post('/client/selectInterestPlace',async(req,res)=>{
                     if(err){
                         console.log(err);
                     }else{
-                        resp.interestPlaces.push({restaurant:require('../index').currentSupermarketName,nearbyPlace:name,distance:result.data.rows[0].elements[0].distance.text});
+                        resp.interestPlaces.push({supermarket:require('../index').currentSupermarketName,nearbyPlace:name,distance:result.data.rows[0].elements[0].distance.text});
                         resp.save();
                         var places =require('../index').currentNearbyPlaces;
                         var success = [{text:'Interest place added correctly'}]
