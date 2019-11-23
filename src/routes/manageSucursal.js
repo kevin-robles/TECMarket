@@ -65,14 +65,14 @@ router.post('/add/searchByLatLng', (req,res)=>{
 
     var latlng= latitude+longitude;
     
-    axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?&rankby=distance&type=food&key=AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do',{
+    axios.get('https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do',{
     
     params:{
-        location:latlng,
+        input:'point:'+latlng,
         }
     })
     .then(function(response){
-        console.log(response.data.results)
+        console.log(response)
 
     })
     .catch(function(err){
