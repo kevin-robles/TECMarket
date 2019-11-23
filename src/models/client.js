@@ -35,6 +35,10 @@ const clientSchema = new Schema({
     password:{
         type: String,
         required: true
+    },
+    interestPlaces:{
+        type: Array,
+        default:[]
     }
 });
 

@@ -5,6 +5,11 @@ const client = require("../models/client");
 const product = require("../models/product");
 const purchase = require("../models/purchase");
 const fs = require('fs');
+const googleMapsClient = require('@google/maps').createClient({
+    key: 'AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do',
+    Promise: Promise
+});
+const axios = require('axios');
 
 
 router.post('/client/createClient',async(req,res)=>{
@@ -189,6 +194,10 @@ router.get('/client/viewProductSupermarket', async(req,res)=>{
     res.render("client/selectSupermarket");
 })
 
+router.get('/client/viewSucursal', async(req,res)=>{
+    res.render("client/viewSucursal");
+})
+
 router.post('/client/selectSupermarket',async(req,res)=>{
     var supermarketName = req.body.supermarketName;
     var errors = [];
@@ -208,7 +217,7 @@ router.post('/client/selectSupermarket',async(req,res)=>{
                 var paths = [];
                 var i =0;
                 while (i < products.length){
-                    var path = './images/'+i+'.jpg';
+                    var path = 'C:/saved/'+i+'.jpg';
                     var thumb = new Buffer.from(products[i].photo.data,'base64');
                     fs.writeFile(path,thumb,function(err) {
                         if(err) {
@@ -226,6 +235,167 @@ router.post('/client/selectSupermarket',async(req,res)=>{
         })
     }
 
+})
+
+router.post('/client/viewSucursal',async(req,res)=>{
+    var supermarketName = req.body.supermarketName;
+    var radiusStr = req.body.radius;
+    var radius = parseInt(radiusStr);
+    var type = req.body.type;
+
+    var errors = [];
+
+    if(!supermarketName){
+        errors.push({text:'Must enter the sucursal name'})
+    }
+    if(!radiusStr){
+        errors.push({text:'Must enter the radius'})
+    }
+    if(isNaN(radius)){
+        errors.push({text:'Radius must be a number'})
+    }
+    if(!type){
+        errors.push({text:'Must enter the sucursal name'})
+    }
+    if(errors.length>0){
+        res.render("./client/viewSucursal",{errors});
+    }else{
+        await supermarket.findOne({name:supermarketName},async(err,market)=>{
+            if(!market){
+                errors.push({text:"The supermarket is not found"});
+                res.render("./client/viewSucursal",{
+                    errors
+                });
+            }else{
+                var location = market.latitude+','+market.longitude;
+
+
+                axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?&key=AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do',{
+                params:{
+                    location:location,
+                    radius:radius,
+                    type:type
+                }
+                }).then((result) => {
+                    if(result.data.results.length == 0){
+                        errors.push({text:"No nearby places found"});
+                        res.render("./client/viewSucursal",{
+                            errors
+                        });
+                    }else{
+                        var i = 0;
+                        var places = [];
+                        //console.log(result.data.results);
+                        while(i< result.data.results.length){
+                            var place = [{}];
+                            if(!result.data.results[i].name){
+                                place[0].name = 'Not available'
+                            }else{
+                                place[0].name = result.data.results[i].name
+                            }
+
+                            if(!result.data.results[i].place_id ){
+                                place[0].place_id  = 'Not available'
+                            }else{
+                                place[0].place_id  = result.data.results[i].place_id 
+                            }
+
+                            if(!result.data.results[i].rating){
+                                place[0].rating = 'Not available'
+                            }else{
+                                place[0].rating = result.data.results[i].rating
+                            }
+
+                            if(!result.data.results[i].schedule){
+                                place[0].schedule = 'Not available'
+                            }else{
+                                place[0].schedule = result.data.results[i].opening_hours
+                            }
+
+                            if(!result.data.results[i].schedule){
+                                place[0].photo = '/'
+                            }else{
+                                var path = 'C:/saved/place'+i+'.jpg';
+                                var thumb = new Buffer.from(result.data.results[i].photos[0].photo_reference,'base64');
+                                fs.writeFile(path,thumb,function(err) {
+                                    if(err) {
+                                        console.log(err);
+                                    } else {
+                                        place[0].photo = path;
+                                        console.log("The file was saved!");
+                                    }
+                                });
+                            }
+
+                            places.push(place[0]);
+                            i++;
+                        }
+                        require('../index').currentSupermarketName = supermarketName;
+                        require('../index').currentLocation = location;
+                        require('../index').currentNearbyPlaces = places;
+                        res.render("client/nearbyPlaces",{places});
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        })
+    }
+    
+})
+
+router.get('/client/addInterestPlace',async(req,res)=>{
+    res.render('./client/selectInterestPlace');
+})
+router.post('/client/selectInterestPlace',async(req,res)=>{
+    var name = req.body.name;
+    var errors = [];
+    var place_id = "";
+
+    if(!name){
+        errors.push({text:'Must enter the name'})
+        res.render('./client/selectInterestPlace',{errors});
+    }else{
+        var i =0;
+        while(i< require('../index').currentNearbyPlaces.length){
+            if(require('../index').currentNearbyPlaces[i].name == name){
+                place_id = require('../index').currentNearbyPlaces[i].place_id;
+                console.log(1);
+            }
+            i++;
+        }
+        if(place_id == ""){
+            errors.push({text:'The name is incorrect'})
+            res.render('./client/selectInterestPlace',{errors});
+        }else{
+            axios.get('https://maps.googleapis.com/maps/api/distancematrix/json?&key=AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do',{
+            params:{
+                origins:require('../index').currentLocation,
+                destinations:'place_id:'+place_id
+            }
+            }).then((result) => {
+                client.findOne({idClient:require('../index').currentClient},function(err,resp){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        resp.interestPlaces.push({restaurant:require('../index').currentSupermarketName,nearbyPlace:name,distance:result.data.rows[0].elements[0].distance.text});
+                        resp.save();
+                        var places =require('../index').currentNearbyPlaces;
+                        var success = [{text:'Interest place added correctly'}]
+                        res.render("./client/nearbyPlaces",{places,success});
+                    }
+                        
+                });
+            }).catch((err) => {
+                    console.log(err);
+                });
+        }
+    }
+})
+
+
+router.get('/client/goBack',async(req,res)=>{
+    res.render("./indexClient");
 })
 
 module.exports = router;

@@ -1,0 +1,43 @@
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action='/client/viewSucursal' method="POST">
+<br>
+<br>
+<div class="home_title"><h2 style="font-size:40px">Enter the information</h2>
+        <br>
+        <br>
+        <label style="color:white ">Sucursal name
+            <br>
+            <input type="text" name="supermarketName" id="supermarketName">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Radius in meters
+            <br>
+            <input type="text" name="radius" id="radius">
+        </label>
+        <br>
+        <br>
+        <label style="color:white ">Type of places
+            <br>
+            <select type="text" id="type" name="type" style="width:180px">
+                <option>restaurant</option>
+                <option>movie_theater</option>
+                <option>doctor</option>
+                <option>museum</option>
+                <option>bar</option>
+            </select>
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit">Search nearby places</button>
+        <br>
+        <br>
+        </div>
+    </form>
