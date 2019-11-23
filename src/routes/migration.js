@@ -56,8 +56,7 @@ router.get('/migration', async (req,res)=>{
         var photoS=arraySuperMProduct[0].photo;
         var rating=arraySuperMProduct[0].rating;
         var website=arraySuperMProduct[0].website;
-        var nameS=arraySuperMProduct[0].name;
-        
+        var nameS=arraySuperMProduct[0].name;        
 
         //agrega el supermercado primero
         session2
@@ -145,11 +144,19 @@ router.get('/migration', async (req,res)=>{
         var birthdate=arrayClientePedido[0].birthdate;
         var username=arrayClientePedido[0].username;
         var password=arrayClientePedido[0].password;
+        var lugaresInteres="";
+
+        if(arrayClientePedido[0].interestPlaces){
+
+            lugaresInteres=String(arrayClientePedido[0].interestPlaces);
+
+        }
+        console.log(arrayClientePedido[0].interestPlaces)
     
         //agrega el cliente primero
         session2
         .run("CREATE (n:Client {idClient:'"+idClient+"',name:'"+nameC+"',phone:"+phone+",email:'"+email+"'"+
-            ",birthdate:'"+birthdate+"',username:'"+username+"',password:'"+password+"'})"+
+            ",birthdate:'"+birthdate+"',username:'"+username+"',password:'"+password+"',interestPlaces: '"+lugaresInteres+"'})"+
             "RETURN n")
         .then(function(result){
             //console.log(result.records[0]._fields[0].properties)
