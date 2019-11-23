@@ -11,6 +11,7 @@ const client = require("../models/client");
 const product = require("../models/product");
 const employee = require("../models/employee");
 
+//consulta 1
 router.post('/consults/consult1',async(req,res)=>{
     var idClient=req.body.idClient;
     var errors=[];
@@ -137,6 +138,8 @@ router.post('/consults/consult4',async(req,res)=>{
         })
     }
 })
+
+//consulta 5
 router.post('/consults/consult5',async(req,res)=>{
     var idClient=req.body.idClient;
     var success=[];
