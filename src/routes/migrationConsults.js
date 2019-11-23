@@ -42,15 +42,70 @@ router.post('/consults/consult4',async(req,res)=>{
     if(!idClient){
         errors.push({text:"You must enter the id of the client"});
     }else{
-        session3
+        session3//saca el cliente
         .run('MATCH (c:Client) where c.idClient="'+idClient+'" return c')
+ HEAD
         .then(function(result){
             var consulta=result.records[0]._fields[0].properties.products
             res.render("consults/showConsult1",{
                 consulta
             });
+
+        .then(function(result1){
+            console.log(result1.records[0]._fields[0].properties.idClient)
+
+            session3//saca el supermercado
+            .run('MATCH (p:Purchases) where p.client="'+result1.records[0]._fields[0].properties.idClient+'" return p')
+            .then(function(result2){
+                console.log(result2.records[0]._fields[0].properties.supermarketName)
+
+                session3//saca el pedido en la misma sucursal
+                .run('MATCH (p:Purchases) where not p.client="'+result2.records[0]._fields[0].properties.idClient+'" and p.supermarketName="'+result2.records[0]._fields[0].properties.supermarketName+'"  return p')
+                .then(function(result3){
+
+                    session3//saca toda la información del cliente encontrado
+                    .run('MATCH (p:Client) where p.idClient="'+result3.records[0]._fields[0].properties.client+'" return p')
+                    .then(function(result4){
+
+                        var clienteSimilar =result4.records[0]._fields[0].properties;
+                        var supermarket=result2.records[0]._fields[0].properties.supermarketName;
+                        console.log(clienteSimilar)
+
+                        res.render("consults/showConsult",{
+                            clienteSimilar,
+                            supermarket
+                        });
+
+                    })
+                    .catch(function(err){
+                        errors.push({text:"The related client was not found"})
+                        res.render("consults/consult4",{
+                            errors
+                        });
+                    })
+
+                })
+                .catch(function(err){
+                    errors.push({text:"There are not more purchases in that supermarket"})
+                    res.render("consults/consult4",{
+                        errors
+                    });
+                })
+
+            })
+            .catch(function(err){
+                errors.push({text:"That client does not have purchases"})
+                res.render("consults/consult4",{
+                    errors
+                });
+            })
+
         })
         .catch(function(err){
+            errors.push({text:"The client does not exist in the database"})
+            res.render("consults/consult4",{
+                errors
+            });
         })
     }
 })
@@ -88,6 +143,12 @@ router.post('/consults/consult5',async(req,res)=>{
                     contadorPorductos+=1
                 }
                 console.log(arrayFinaLProductos)
+            })
+            .catch(function(err){
+                errors.push({text:"The client does not exist in the database"})
+                res.render("consults/consult5",{
+                    errors
+                });
             })
 
         })      

@@ -1,10 +1,14 @@
 
 <br><br>
+ 
 <h4>Consulta</h4>
+
+<h1>Consults</h1>
 <br><br>
     <br><br>
     {{#if consulta}}
     <div class="col-md-3">
+        <h4>Recomendations</h4>
         <div class="vuelos">
             <div class="cuerpo">
                 <h5 class="nombre">
@@ -12,6 +16,28 @@
                 </h5>
                 <br><br>
                 <p>{{consulta}}</p>
+                
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    {{#if supermarket}}
+    <div class="col-md-8">
+        <div class="vuelos">
+            <div class="cuerpo">
+                <h2 class="nombre">
+                  Another client who purchased in the Supermarket {{supermarket}} was
+                </h2>
+                <br><br>
+
+                {{#if clienteSimilar}}
+                <p>IdClient: {{clienteSimilar.idClient}}</p>
+                <p>Name: {{clienteSimilar.name}}</p>
+                <p>Phone: {{clienteSimilar.phone}}</p>
+                <p>Email: {{clienteSimilar.email}}</p>
+                <p>Birthdate: {{clienteSimilar.birthdate}}</p>
+                {{/if}}
                 
                 <br><br>
             </div>
