@@ -172,10 +172,10 @@ router.get('/consults/consult1', (req,res)=>{
     res.render("consults/consult1");
 })
 
-router.get('/consults/consult2', (req,res)=>{
+router.post('/consults/consult2', (req,res)=>{
     var errors=[];
     session3
-    .run('MATCH (n.Purchases) where n.client="'+66666+'" return n')
+    .run('MATCH (p:Purchases) return p')
     .then(function(result1){
         var purchases =result1.records[0]._fields[0].properties
         console.log(purchases);

@@ -8,20 +8,15 @@
         <div class="purchase">
             <div class="body">
                 <h5 class="idClient">
-                  Client:  {{client}}
+                  Client:  {{purchases.client}}
                 </h5>
-                <p>Supermarket name: {{supermarketName}}</p>
-                <p>Date: {{date}}</p>
+                <p>Supermarket name: {{purchases.supermarketName}}</p>
+                <p>Date: {{purchases.date}}</p>
                 <p>Status: {{status}}</p>
                 <p>Total price: {{finalPrice}}</p>
                 <p>Extra Information: {{extraInformation}}</p>
                 <p>Products:</p>
-                {{#each products}}
-                    <p>Code: {{idProduct}}</p>
-                    <p>Quantity: {{quantity}}</p>
-                    <p>Price: {{price}}</p>
-                    <br>
-                {{/each}}
+              
                 <br><br>
             </div>
         </div>
