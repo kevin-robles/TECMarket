@@ -38,6 +38,37 @@ router.post('/consults/consult1',async(req,res)=>{
 
     }
 })
+
+
+//consulta 3
+router.get('/consults/consult3', async (req,res)=>{
+    
+    var errors=[];
+
+    session3
+    .run('MATCH (n:Purchases) return max(n.supermarketName)')
+    .then(function(result){
+        var final =result.records[0]._fields[0]
+
+        res.render("consults/showConsult3",{
+            final
+        });
+        
+    })
+    .catch(function(err){
+        errors.push({text:"Error"})
+        res.render("consults/menuConsults",{
+            errors
+        });
+    })
+
+    
+
+    
+})
+
+
+//consutla 4
 router.post('/consults/consult4',async(req,res)=>{
     var idClient=req.body.idClient;
     var success=[];
@@ -194,9 +225,7 @@ router.get('/consults/consult2', (req,res)=>{
         });
     })    
 })
-router.get('/consults/consult3', (req,res)=>{
-    res.render("consults/consult3");
-})
+
 router.get('/consults/consult4', (req,res)=>{
     res.render("consults/consult4");
 })
