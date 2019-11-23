@@ -43,10 +43,9 @@ router.post('/employee/registerProduct',async(req,res)=>{
     var description = req.body.description;
     var price = req.body.price;
     var photo = req.body.photo;
-    console.log(photo);
     var nameSupermarket = req.body.nameSupermarket;
     var quantity = req.body.quantity;
-
+    console.log(photo);
     var success = [];
     var errors = [];
 
