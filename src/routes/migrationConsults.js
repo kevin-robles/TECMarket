@@ -99,14 +99,17 @@ router.post('/consults/consult5',async(req,res)=>{
         errors.push({text:"You must enter the id of the client"});
     }else{
         session3
-        .run('MATCH (c:Client) where not c.idClient="'+idClient+'" return c')
-        .then(function(result){ 
+        .run('MATCH (c:Client),(p:Purchases) where not c.idClient="'+idClient+'" and c.idClient=p.client return c')
+        .then(function(result1){ 
+            console.log(result1.records[0]._fields[0].properties)
 
             session3
-            .run('MATCH (p:Purchases) where p.client="'+result.records[0]._fields[0].properties.idClient+'" return p')
-            .then(function(result){ 
-                var ids= String(result.records[0]._fields[0].properties.products).split(",")
+            .run('MATCH (p:Purchases) where p.client="'+result1.records[0]._fields[0].properties.idClient+'" return p')
+            .then(function(result2){ 
+                var ids= String(result2.records[0]._fields[0].properties.products).split(",")
                 
+                console.log(ids)
+
                 var contadorPorductos=1;
                 while(ids.length>contadorPorductos){
                     
@@ -122,19 +125,29 @@ router.post('/consults/consult5',async(req,res)=>{
                         
                     })
                     .catch(function(err){
+                        errors.push({text:"There are not products"})
+                        res.render("consults/consult5",{
+                            errors
+                        });
                     })
                     contadorPorductos+=1
                 }
                 console.log(arrayFinaLProductos)
             })
             .catch(function(err){
-                errors.push({text:"The client does not exist in the database"})
+                errors.push({text:"The rest of the clients do not have purchases"})
                 res.render("consults/consult5",{
                     errors
                 });
             })
+        })
+        .catch(function(err){
+            errors.push({text:"There are not more clients"})
+            res.render("consults/consult5",{
+                errors
+            });
+        })
 
-        })      
     } 
 
 })

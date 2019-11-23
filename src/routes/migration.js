@@ -190,16 +190,6 @@ router.get('/migration', async (req,res)=>{
             })
             .catch(function(err){
             })
-
-            // RELACIONES CON supermercado
-            session2
-            .run('MATCH (a:SuperMarket),(b:Purchases) WHERE a.name=b.supermarketName and a.name="'+arrayClientePedido[contadorPedidosFinales].supermarketName+'" and b.supermarketName="'+arrayClientePedido[contadorPedidosFinales].supermarketName+'" CREATE (a)-[r:hasPurchaseAbout]->(b) RETURN r')
-            .then(function(result){ 
-                console.log(result.records[0]._fields[0].properties)
-            })
-            .catch(function(err){
-            })
-
             contadorPedidosFinales+=1
         }
 
@@ -216,6 +206,15 @@ router.get('/migration', async (req,res)=>{
         contadorCliente+=1;
 
     }
+
+    // RELACIONES CON supermercado
+    session2
+    .run('MATCH (a:SuperMarket),(b:Purchases) WHERE a.name=b.supermarketName CREATE (a)-[r:hasPurchaseAbout]->(b) RETURN r')
+    .then(function(result){ 
+        console.log(result.records[0]._fields[0].properties)
+    })
+    .catch(function(err){
+    })
 
     //se agregan relaciones entre pedido y producto
     console.log(productsFinal)
