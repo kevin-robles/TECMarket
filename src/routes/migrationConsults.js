@@ -15,12 +15,25 @@ router.post('/consults/consult1',async(req,res)=>{
     var idClient=req.body.idClient;
     var success=[];
     var errors=[];
+    var historialProductos=[];
 
     if(!idClient){
         errors.push({text:"You must enter the id of the client"});
     }else{
+        session3
+        .run('MATCH (c:Purchases) where c.client="'+idClient+'"return c')
+        .then(function(result){
+            var consulta=result.records[0]._fields[0].properties.products
+            console.log(consulta);
+            res.render("consults/showConsult",{
+                consulta
+            });
+        })
+        .catch(function(err){
+        })
     }
 })
+
 router.post('/consults/consult4',async(req,res)=>{
     var idClient=req.body.idClient;
     var success=[];
@@ -32,7 +45,10 @@ router.post('/consults/consult4',async(req,res)=>{
         session3
         .run('MATCH (c:Client) where c.idClient="'+idClient+'" return c')
         .then(function(result){
-            console.log(result.records[0]._fields[0].properties)
+            var consulta=result.records[0]._fields[0].properties.products
+            res.render("consults/showConsult1",{
+                consulta
+            });
         })
         .catch(function(err){
         })
@@ -58,14 +74,11 @@ router.post('/consults/consult5',async(req,res)=>{
                 
                 var contadorPorductos=1;
                 while(ids.length>contadorPorductos){
-                    
-
                     session3
                     .run('MATCH (p:Product) where p.idProduct="'+ids[contadorPorductos]+'" return p')
                     .then(function(result){
                         var x =result.records[0]._fields[0].properties.name
-                        console.log(x)
-                        res.render("consults/showConsult",{
+                        res.render("consults/showConsult5",{
                             x
                         });
                         
