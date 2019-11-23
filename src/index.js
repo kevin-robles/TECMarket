@@ -46,7 +46,7 @@ app.use(require('./routes/client'));
 app.use(require('./routes/employee'));
 app.use(require('./routes/manageSucursal'));
 app.use(require('./routes/migration'));
-
+app.use(require('./routes/migrationConsults'));
 //static files
 app.use(express.static(path.join(__dirname,'public')));
 

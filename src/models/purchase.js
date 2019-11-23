@@ -15,6 +15,7 @@ const purchaseSchema = new Schema({
     },
     extraInformation:{
         type: String,
+        unique:true
     },
     client:{
         type: String,
@@ -26,6 +27,11 @@ const purchaseSchema = new Schema({
     finalPrice:{
         type: Number,
         default:0
+    },
+    idClient:{
+        type: Number,
+        unique : true,
+        required : true
     }
 })
 

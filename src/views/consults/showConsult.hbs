@@ -1,0 +1,23 @@
+
+    {{#if supermarket}}
+    <div class="col-md-8">
+        <div class="vuelos">
+            <div class="cuerpo">
+                <h2 class="nombre">
+                  Another client who purchased in the Supermarket {{supermarket}} was
+                </h2>
+                <br><br>
+                {{#if clienteSimilar}}
+                <p>IdClient: {{clienteSimilar.idClient}}</p>
+                <p>Name: {{clienteSimilar.name}}</p>
+                <p>Phone: {{clienteSimilar.phone}}</p>
+                <p>Email: {{clienteSimilar.email}}</p>
+                <p>Birthdate: {{clienteSimilar.birthdate}}</p>
+                {{/if}}
+                
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+<br><br><br>

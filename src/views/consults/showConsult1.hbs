@@ -1,0 +1,25 @@
+<br><br>
+<h4>Purchases TECMarket</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#if consulta}}
+    <div class="col-md-3">
+        <div class="purchase">
+            <div class="body">
+                <h5 class="idClient">
+                  Client:  {{consulta.client}}
+                </h5>
+                <p>Supermarket name: {{consulta.supermarketName}}</p>
+                <p>Date: {{consulta.date}}</p>
+                <p>Status: {{consulta.status}}</p>
+                <p>Total price: {{consulta.finalPrice}}</p>
+                <p>Extra Information: {{consulta.extraInformation}}</p>
+                <p>Products:{{consulta.products}}</p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</div>
+<br><br><br>

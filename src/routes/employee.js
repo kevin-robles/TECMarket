@@ -41,13 +41,11 @@ router.post('/employee/registerProduct',async(req,res)=>{
     var idProduct = req.body.code;
     var name = req.body.name;
     var description = req.body.description;
-    var description = req.body.description;
     var price = req.body.price;
     var photo = req.body.photo;
-    console.log(photo);
     var nameSupermarket = req.body.nameSupermarket;
     var quantity = req.body.quantity;
-
+    console.log(photo);
     var success = [];
     var errors = [];
 

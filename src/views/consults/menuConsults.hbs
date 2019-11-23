@@ -1,0 +1,56 @@
+{{#each success}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TECMarket</title>
+    <h1 class="display-4" >Welcome to TECMarket</h1>
+    <br>
+    <br>
+    <h1> Select the consult you want to make</h1>
+    <br>
+    <form action="/consults/consult1" method="GET">
+    <button class="btn btn-primary" type="submit"> Search a particular client</button>
+    </form>
+    <br>
+    <br>
+    <form action="/consults/consult2" method="GET">
+    <button class="btn btn-primary" type="submit"> Stores  where costumers have placed orders</button>
+    </form>
+    <br>
+    <br>
+    <form action="" method="GET">
+    <button class="btn btn-primary" type="submit"> Top 5 stores with more orders </button>
+    </form>
+    <br>
+    <br>
+    <form action="/consults/consult4" method="GET">
+    <button class="btn btn-primary" type="submit"> Particular client and a common product with others clients</button>
+    </form>
+    <br>
+    <br>
+    <form action="/consults/consult5" method="GET">
+    <button class="btn btn-primary" type="submit"> Particular client show all the products purchased by others clients in the same supermarket</button>
+    </form>
+    <br>
+    <br>    
+</head>
+</html>
