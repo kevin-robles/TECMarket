@@ -148,10 +148,23 @@ router.get('/migration', async (req,res)=>{
 
         if(arrayClientePedido[0].interestPlaces){
 
-            lugaresInteres=String(arrayClientePedido[0].interestPlaces);
+            var contadorHola=1;
+
+            
+            while(arrayClientePedido[0].interestPlaces.length>contadorHola){ 
+
+                console.log(arrayClientePedido[0].interestPlaces[contadorHola])
+
+                lugaresInteres+="Lugar: "
+                lugaresInteres+=String(arrayClientePedido[0].interestPlaces[contadorHola].supermarket)+",";
+                lugaresInteres+=String(arrayClientePedido[0].interestPlaces[contadorHola].nearbyPlace)+",";
+                lugaresInteres+=String(arrayClientePedido[0].interestPlaces[contadorHola].distance)+" ";
+                lugaresInteres+="  "
+                contadorHola+=1;
+            }
 
         }
-        console.log(arrayClientePedido[0].interestPlaces)
+        console.log(lugaresInteres)
     
         //agrega el cliente primero
         session2
