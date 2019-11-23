@@ -6,6 +6,15 @@
   </button>
 </div>
 {{/each}}
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +32,7 @@
     </form>
     <br>
     <br>
-    <form action="" method="GET">
+    <form action="/consults/consult2" method="GET">
     <button class="btn btn-primary" type="submit"> Stores  where costumers have placed orders</button>
     </form>
     <br>

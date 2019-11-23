@@ -1,0 +1,39 @@
+{{#each success}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<br><br>
+<h4>Nearby Places TECMarket</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#each places}}
+    <div class="col-md-5">
+        <div class="places">
+            <div class="body">
+                <h5 class="name">
+                  Name:  {{name}}
+                </h5>
+                <p>id: {{id}}</p>
+                <p>rating: {{rating}}</p>
+                <p>Is open?: {{schedule}}</p>
+                <img src="{{photo}}" alt="Photo" width="100px" height="100px"/> 
+                <br><br>
+                <form action='/client/addInterestPlace' method="GET">
+                    <button class="btn btn-primary" type="submit"> Add to interest places</button>
+                    <br>
+                </form>
+            <br><br>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<form action='/client/goBack' method="GET">
+    <button class="btn btn-primary" type="submit"> Go back</button>
+</form>
+<br><br><br>
