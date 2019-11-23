@@ -312,7 +312,7 @@ router.post('/client/viewSucursal',async(req,res)=>{
                                 place[0].schedule = result.data.results[i].opening_hours
                             }
 
-                            if(!result.data.results[i].schedule){
+                            if(!result.data.results[i].photo){
                                 place[0].photo = '/'
                             }else{
                                 var path = 'C:/saved/place'+i+'.jpg';
@@ -396,6 +396,45 @@ router.post('/client/selectInterestPlace',async(req,res)=>{
 
 router.get('/client/goBack',async(req,res)=>{
     res.render("./indexClient");
+})
+
+router.get('/client/readSupermarket',async(req,res)=>{
+    res.render("client/chooseSupermarket");
+})
+
+router.post('/client/chooseSupermarket',async(req,res)=>{
+    var supermarketName = req.body.supermarketName;
+    var errors = [];
+
+    if(!supermarketName){
+        errors.push({text:"You must enter the supermarket name"});
+        res.render('./client/chooseSupermarket',{errors});
+    }else{
+        await supermarket.findOne({name:supermarketName},async(err,market)=>{
+            if(!market){
+                errors.push({text:"The supermarket is not found"});
+                res.render("./client/chooseSupermarket",{
+                    errors
+                });
+            }else{
+                var path = 'C:/saved/supermarket.jpg';
+                var thumb = new Buffer.from(market.photo,'base64');
+                fs.writeFile(path,thumb,function(err) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log(market);
+                        market.schedule = market.schedule[0].open_now;
+                        market.photo = path;
+                        res.render("client/supermarket",{market});
+                        console.log("The file was saved!");
+                    }
+                });
+                
+            }
+        })
+    }
+
 })
 
 module.exports = router;
