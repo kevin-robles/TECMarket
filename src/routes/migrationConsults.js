@@ -13,23 +13,26 @@ const employee = require("../models/employee");
 
 router.post('/consults/consult1',async(req,res)=>{
     var idClient=req.body.idClient;
-    var success=[];
     var errors=[];
-    var historialProductos=[];
 
     if(!idClient){
         errors.push({text:"You must enter the id of the client"});
     }else{
         session3
         .run('MATCH (c:Purchases) where c.client="'+idClient+'"return c')
-        .then(function(result){
-            var consulta=result.records[0]._fields[0].properties.products
+        .then(function(result1){
+            var consulta=result1.records[0]._fields[0].properties
             console.log(consulta);
-            res.render("consults/showConsult",{
-                consulta
+            res.render("consults/showConsult1",{
+                consulta,
+                consultaproductos
             });
         })
         .catch(function(err){
+            errors.push({text:"The related client was not found"})
+            res.render("consults/consult4",{
+                errors
+            });
         })
     }
 })
@@ -44,20 +47,13 @@ router.post('/consults/consult4',async(req,res)=>{
     }else{
         session3//saca el cliente
         .run('MATCH (c:Client) where c.idClient="'+idClient+'" return c')
- HEAD
-        .then(function(result){
-            var consulta=result.records[0]._fields[0].properties.products
-            res.render("consults/showConsult1",{
-                consulta
-            });
-
         .then(function(result1){
             console.log(result1.records[0]._fields[0].properties.idClient)
 
             session3//saca el supermercado
             .run('MATCH (p:Purchases) where p.client="'+result1.records[0]._fields[0].properties.idClient+'" return p')
             .then(function(result2){
-                console.log(result2.records[0]._fields[0].properties.supermarketName)
+                console.log(result2.records[0]._fields[0].properties.supermarketName);
 
                 session3//saca el pedido en la misma sucursal
                 .run('MATCH (p:Purchases) where not p.client="'+result2.records[0]._fields[0].properties.idClient+'" and p.supermarketName="'+result2.records[0]._fields[0].properties.supermarketName+'"  return p')
@@ -162,8 +158,24 @@ router.get('/consults', (req,res)=>{
 router.get('/consults/consult1', (req,res)=>{
     res.render("consults/consult1");
 })
+
 router.get('/consults/consult2', (req,res)=>{
-    res.render("consults/consult2");
+    var errors=[];
+    session3
+    .run('MATCH (n.Purchases) where n.client="'+66666+'" return n')
+    .then(function(result1){
+        var purchases =result1.records[0]._fields[0].properties
+        console.log(purchases);
+        res.render("consults/showConsult2",{
+            purchases
+        })
+    })
+    .catch(function(err){
+        errors.push({text:"There aren't purchases in the database"})
+        res.render("consults/menuConsults",{
+            errors
+        });
+    })    
 })
 router.get('/consults/consult3', (req,res)=>{
     res.render("consults/consult3");

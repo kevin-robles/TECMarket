@@ -1,0 +1,31 @@
+<br><br>
+<h4>Purchases TECMarket</h4>
+<br><br>
+<div class="row">
+    <br><br>
+    {{#each purchases}}
+    <div class="col-md-3">
+        <div class="purchase">
+            <div class="body">
+                <h5 class="idClient">
+                  Client:  {{client}}
+                </h5>
+                <p>Supermarket name: {{supermarketName}}</p>
+                <p>Date: {{date}}</p>
+                <p>Status: {{status}}</p>
+                <p>Total price: {{finalPrice}}</p>
+                <p>Extra Information: {{extraInformation}}</p>
+                <p>Products:</p>
+                {{#each products}}
+                    <p>Code: {{idProduct}}</p>
+                    <p>Quantity: {{quantity}}</p>
+                    <p>Price: {{price}}</p>
+                    <br>
+                {{/each}}
+                <br><br>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<br><br><br>
