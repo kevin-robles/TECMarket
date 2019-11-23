@@ -120,5 +120,160 @@ router.get('/employee/registerProduct', (req,res)=>{
 router.get('/employee/registerSupermarket', (req,res)=>{
     res.render("manageSucursal/manageAddSucursal");
 })
+router.get('/employee/readSupermarket',async(req,res)=>{
+    res.render("employee/chooseSupermarket");
+})
+router.post('/employee/chooseSupermarket',async(req,res)=>{
+    var supermarketName = req.body.supermarketName;
+    var errors = [];
 
+    if(!supermarketName){
+        errors.push({text:"You must enter the supermarket name"});
+        res.render('./employee/chooseSupermarket',{errors});
+    }else{
+        await supermarket.findOne({name:supermarketName},async(err,market)=>{
+            if(!market){
+                errors.push({text:"The supermarket is not found"});
+                res.render("./employee/chooseSupermarket",{
+                    errors
+                });
+            }else{
+                var path = 'C:/saved/supermarket.jpg';
+                var thumb = new Buffer.from(market.photo,'base64');
+                fs.writeFile(path,thumb,function(err) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log(market);
+                        market.schedule = market.schedule[0].open_now;
+                        market.photo = path;
+                        res.render("employee/supermarket",{market});
+                        console.log("The file was saved!");
+                    }
+                });
+                
+            }
+        })
+    }
+
+})
+
+router.get('/employee/editSupermarket', (req,res)=>{
+    res.render("employee/selectEditSupermarket");
+})
+router.get('/employee/deleteSupermarket', (req,res)=>{
+    res.render("./employee/selectDeleteSupermarket");
+})
+
+router.post('/employee/selectEditSupermarket',async(req,res)=>{
+    var supermarketName = req.body.supermarketName;
+    var errors = [];
+
+    if(!supermarketName){
+        errors.push({text:"You must enter the supermarket name"});
+        res.render('./employee/selectDeleteSupermarket',{errors});
+    }else{
+        await supermarket.findOne({name:supermarketName},async(err,market)=>{
+            if(!market){
+                errors.push({text:"The supermarket is not found"});
+                res.render("./employee/selectDeleteSupermarket",{
+                    errors
+                });
+            }else{
+                require('../index').currentSupermarketName = supermarketName;
+                var name = [{name:supermarketName}];
+                res.render('employee/editSupermarket',{name})
+            }
+        })
+    }
+})
+router.post('/employee/editSupermarket',async(req,res)=>{
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
+    var address = req.body.address;
+    var description = req.body.description;
+    var internationalPhone = req.body.internationalPhone;
+    var rating = req.body.rating;
+    var schedule = req.body.schedule;
+    var photo = req.body.photo;
+
+    var errors= [];
+    var success = [];
+
+    await supermarket.findOne({name:require('../index').currentSupermarketName},async(err,market)=>{
+        var contador = 0;
+        if(latitude){
+            market.latitude = latitude;
+            contador++;
+        }
+        if(longitude){
+            market.longitude = longitude;
+            contador++;
+        }
+        if(address){
+            market.address = address;
+            contador++;
+        }
+        if(description){
+            market.description = description;
+            contador++;
+        }
+        if(internationalPhone){
+            market.internationalPhone = internationalPhone;
+            contador++;
+        }
+        if(rating){
+            market.rating = rating;
+            contador++;
+        }
+        if(schedule){
+            market.schedule = schedule;
+            contador++;
+        }
+        if(photo){
+            var path = 'C:/supermarkets/'+photo;
+            market.photo = fs.readFileSync(path);
+        }
+        if(contador ==0){
+            errors.push({text:"Must edit at least one field"});
+            res.render("./employee/editSupermarket",{
+                errors
+            });
+        }else{
+            market.save();
+            success.push({text: "Supermarket edited correctly"});
+            res.render("./indexEmployee",{success});
+        }
+
+    })
+})
+
+router.post('/employee/selectDeleteSupermarket',async(req,res)=>{
+    var supermarketName = req.body.supermarketName;
+    var errors = [];
+    var success = []
+
+    if(!supermarketName){
+        errors.push({text:"You must enter the supermarket name"});
+        res.render('./employee/selectDeleteSupermarket',{errors});
+    }else{
+        await supermarket.findOne({name:supermarketName},async(err,market)=>{
+            if(!market){
+                errors.push({text:"The supermarket is not found"});
+                res.render("./employee/selectDeleteSupermarket",{
+                    errors
+                });
+            }else{
+                await supermarket.deleteOne({name:supermarketName},(err)=>{
+                    if(err){
+                        console.log(err);
+                    }else{
+                        success.push({text: "Supermarket deleted correctly"});
+                        res.render("./indexEmployee",{success});
+                    }
+                })
+            }
+        })
+    }
+})
 module.exports = router;

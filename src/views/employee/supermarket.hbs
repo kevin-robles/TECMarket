@@ -1,0 +1,28 @@
+<br><br>
+<h4>Supermarket TECMarket</h4>
+<br><br>
+
+<div class="row">
+    <br><br>
+    {{#each market}}
+    <div class="col-md-3">
+        <div class="market">
+            <div class="body">
+                <h5 class="name">
+                  Name :  {{name}}
+                </h5>
+                <p>latitude: {{latitude}}</p>
+                <p>longitude: {{longitude}}</p>
+                <p>address: {{address}}</p>
+                <p>description: {{description}}</p>
+                <p>international Phone: {{internationalPhone}}</p>
+                <p>rating: {{rating}}</p>
+                <p>is open?: {{schedule}}</p> 
+                <p>website: {{website}}</p> 
+                <img src="{{photo}}" alt="Photo" width="100px" height="100px"/> 
+            <br><br>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

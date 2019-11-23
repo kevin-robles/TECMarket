@@ -36,6 +36,9 @@ app.use(session({
 //global vars
 module.exports.currentPurchase = new purchase;
 module.exports.currentClient = "";
+module.exports.currentNearbyPlaces = [];
+module.exports.currentLocation = "";
+module.exports.currentSupermarketName = "";
 
 //routes
 app.use(require('./routes/index'));

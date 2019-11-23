@@ -1,0 +1,77 @@
+{{#each errors}}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/each}}
+<form action='/employee/editSupermarket' method="POST">
+<br>
+<br>
+<div class="home_title"><h2 style="font-size:40px">Enter the supermarket information</h2>
+    {{#each name}}
+    <div>
+        <h5>{{name}}</h5>
+    </div>
+    {{/each}} 
+        <label style="color:white ">latitude
+            <br>
+            <input type="text" name="latitude" id="latitude">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">longitude
+            <br>
+            <input type="text" name="longitude" id="longitude">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">address
+            <br>
+            <input type="text" name="address" id="address">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">description
+            <br>
+            <input type="text" name="description" id="description">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">international Phone
+            <br>
+            <input type="text" name="internationalPhone" id="internationalPhone">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">rating
+            <br>
+            <input type="text" name="rating" id="rating">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">schedule
+            <br>
+            <input type="text" name="schedule" id="schedule">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">website
+            <br>
+            <input type="text" name="website" id="website">
+        </label>
+        <br>
+        <br>
+        <label style="color:white">Photo
+            <br>
+            <input type="file" name="photo" id="photo" accept="image/png, image/jpeg">
+        </label>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit"> Edit</button>
+        <br>
+        <br>
+        </div>
+    </form>
+    <script></script>

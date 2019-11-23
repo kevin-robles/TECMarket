@@ -11,6 +11,7 @@ const client = require("../models/client");
 const product = require("../models/product");
 const employee = require("../models/employee");
 
+//consulta 1
 router.post('/consults/consult1',async(req,res)=>{
     var idClient=req.body.idClient;
     var errors=[];
@@ -18,6 +19,7 @@ router.post('/consults/consult1',async(req,res)=>{
     if(!idClient){
         errors.push({text:"You must enter the id of the client"});
     }else{
+
         session3
         .run('MATCH (c:Purchases) where c.client="'+idClient+'"return c')
         .then(function(result1){
@@ -34,9 +36,40 @@ router.post('/consults/consult1',async(req,res)=>{
                 errors
             });
         })
+
     }
 })
 
+
+//consulta 3
+router.get('/consults/consult3', async (req,res)=>{
+    
+    var errors=[];
+
+    session3
+    .run('MATCH (n:Purchases) return max(n.supermarketName)')
+    .then(function(result){
+        var final =result.records[0]._fields[0]
+
+        res.render("consults/showConsult3",{
+            final
+        });
+        
+    })
+    .catch(function(err){
+        errors.push({text:"Error"})
+        res.render("consults/menuConsults",{
+            errors
+        });
+    })
+
+    
+
+    
+})
+
+
+//consutla 4
 router.post('/consults/consult4',async(req,res)=>{
     var idClient=req.body.idClient;
     var success=[];
@@ -105,6 +138,8 @@ router.post('/consults/consult4',async(req,res)=>{
         })
     }
 })
+
+//consulta 5
 router.post('/consults/consult5',async(req,res)=>{
     var idClient=req.body.idClient;
     var success=[];
@@ -128,10 +163,13 @@ router.post('/consults/consult5',async(req,res)=>{
 
                 var contadorPorductos=1;
                 while(ids.length>contadorPorductos){
+                    
+
                     session3
                     .run('MATCH (p:Product) where p.idProduct="'+ids[contadorPorductos]+'" return p')
                     .then(function(result){
                         var x =result.records[0]._fields[0].properties.name
+                        console.log(x)
                         res.render("consults/showConsult5",{
                             x
                         });
@@ -190,9 +228,7 @@ router.post('/consults/consult2', (req,res)=>{
         });
     })    
 })
-router.get('/consults/consult3', (req,res)=>{
-    res.render("consults/consult3");
-})
+
 router.get('/consults/consult4', (req,res)=>{
     res.render("consults/consult4");
 })
