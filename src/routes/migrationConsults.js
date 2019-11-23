@@ -18,6 +18,7 @@ router.post('/consults/consult1',async(req,res)=>{
     if(!idClient){
         errors.push({text:"You must enter the id of the client"});
     }else{
+
         session3
         .run('MATCH (c:Purchases) where c.client="'+idClient+'"return c')
         .then(function(result1){
@@ -34,9 +35,9 @@ router.post('/consults/consult1',async(req,res)=>{
                 errors
             });
         })
+
     }
 })
-
 router.post('/consults/consult4',async(req,res)=>{
     var idClient=req.body.idClient;
     var success=[];
@@ -128,10 +129,13 @@ router.post('/consults/consult5',async(req,res)=>{
 
                 var contadorPorductos=1;
                 while(ids.length>contadorPorductos){
+                    
+
                     session3
                     .run('MATCH (p:Product) where p.idProduct="'+ids[contadorPorductos]+'" return p')
                     .then(function(result){
                         var x =result.records[0]._fields[0].properties.name
+                        console.log(x)
                         res.render("consults/showConsult5",{
                             x
                         });
