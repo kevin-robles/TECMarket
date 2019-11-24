@@ -170,7 +170,7 @@ router.post('/client/finishPurchase',async(req,res)=>{
         });
     i++;
     }
-    success.push({text:"Successful registered purchase"});
+    success.push({text:"Successful registered purchase, the final price is: ₡"+require('../index').currentPurchase.finalPrice});
     res.render("./indexClient",{success});
 })
 

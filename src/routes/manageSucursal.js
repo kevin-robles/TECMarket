@@ -5,6 +5,7 @@ const googleMapsClient = require('@google/maps').createClient({
     key: 'AIzaSyBLFLwYDHIrtArs-xG5TY5u8Verwhcq_do',
     Promise: Promise
 });
+const fs = require('fs');
 const supermarket = require("../models/supermarket");
 
 //add new sucursal
@@ -44,10 +45,10 @@ router.post('/search', (req,res)=>{
         var website = String(response.data.candidates[0].photos[0].html_attributions);
         var description = "Supermarket";
         var internationalPhone = "506";
-;
+
         const newSupermarket= new supermarket({name,latitude,longitude,address,description,photo,internationalPhone,rating,schedule,website});
         newSupermarket.save();
-        console.log(newSupermarket)
+        //console.log(newSupermarket)
         success.push({text:"The sucursal was created successfully"});
         res.render("./indexEmployee",{
             success,
