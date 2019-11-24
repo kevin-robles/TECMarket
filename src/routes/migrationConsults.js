@@ -41,6 +41,32 @@ router.post('/consults/consult1',async(req,res)=>{
 })
 
 
+//Consulta2
+router.post('/consults/consult2', (req,res)=>{
+    var errors=[];
+    session3
+    .run('MATCH (a:Purchases) return a')
+    .then(function(result1){
+        var purchases=result1.records[0]._fields[0].properties
+        console.log(purchases);
+        session3
+        .run('MATCH (b:SuperMarket) where b.name="'+result1.records[0]._fields[0].properties.supermarketName+'" return b')
+        .then(function(result2){
+            var consult=result2.records[0]._fields[0].properties 
+            console.log(consult);
+            res.render("consults/showConsult2",{
+                consult
+            })
+        }) 
+    })
+    .catch(function(err){
+        errors.push({text:"There aren't purchases in the database"})
+        res.render("consults/menuConsults",{
+            errors
+        });
+    })    
+})
+
 //consulta 3
 router.get('/consults/consult3', async (req,res)=>{
     
@@ -62,10 +88,6 @@ router.get('/consults/consult3', async (req,res)=>{
             errors
         });
     })
-
-    
-
-    
 })
 
 
@@ -209,26 +231,6 @@ router.get('/consults', (req,res)=>{
 router.get('/consults/consult1', (req,res)=>{
     res.render("consults/consult1");
 })
-
-router.post('/consults/consult2', (req,res)=>{
-    var errors=[];
-    session3
-    .run('MATCH (p:Purchases) return p')
-    .then(function(result1){
-        var purchases =result1.records[0]._fields[0].properties
-        console.log(purchases);
-        res.render("consults/showConsult2",{
-            purchases
-        })
-    })
-    .catch(function(err){
-        errors.push({text:"There aren't purchases in the database"})
-        res.render("consults/menuConsults",{
-            errors
-        });
-    })    
-})
-
 router.get('/consults/consult4', (req,res)=>{
     res.render("consults/consult4");
 })

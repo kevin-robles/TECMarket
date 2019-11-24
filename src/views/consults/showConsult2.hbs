@@ -1,26 +1,23 @@
 <br><br>
-<h4>Purchases TECMarket</h4>
+<h4>Supermarket TECMarket</h4>
 <br><br>
 <div class="row">
     <br><br>
-    {{#each purchases}}
+    {{#if consult}}
     <div class="col-md-3">
         <div class="purchase">
             <div class="body">
-                <h5 class="idClient">
-                  Client:  {{purchases.client}}
-                </h5>
-                <p>Supermarket name: {{purchases.supermarketName}}</p>
-                <p>Date: {{purchases.date}}</p>
-                <p>Status: {{status}}</p>
-                <p>Total price: {{finalPrice}}</p>
-                <p>Extra Information: {{extraInformation}}</p>
-                <p>Products:</p>
-              
+                <p>Name:  {{consult.name}}</p>
+                <p>Address:  {{consult.address}}</p>
+                <p>Description: {{consult.description}}</p>
+                <p>Latitude:  {{consult.latitude}}</p>
+                <p>Longitude:  {{consult.longitude}}</p>
+                <p>Rating:  {{consult.rating}}</p>
+                <p>Website:  {{consult.website}}</p>
                 <br><br>
             </div>
         </div>
     </div>
-    {{/each}}
+    {{/if}}
 </div>
 <br><br><br>

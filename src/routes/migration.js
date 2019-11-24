@@ -21,7 +21,7 @@ router.get('/migration', async (req,res)=>{
     const employees = await employee.find();
     const purchases = await purchase.find();
 
-
+    var success=[];
     //este array contiene los productos por pedido es IMPORTANTE
     var productsFinal=[];
     //Productos y supermercado
@@ -250,6 +250,7 @@ router.get('/migration', async (req,res)=>{
             .run('MATCH (a:Product),(b:Purchases) WHERE a.idProduct="'+productsFinal[contadorPrincipal][contadorInterno]+'"and b.extraInformation="'+productsFinal[contadorPrincipal][0]+'" CREATE (a)-[r:addedTo]->(b) RETURN r')
             .then(function(result){ 
                 console.log(result.records[0]._fields[0].properties)
+                
             })
             .catch(function(err){
             })
@@ -259,6 +260,12 @@ router.get('/migration', async (req,res)=>{
 
         contadorPrincipal+=1
     }
+    success.push({text:"The migration was executed successfully"});
+                res.render("Indexapp",{
+                    success
+                });
+
+
 
 
 })

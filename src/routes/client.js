@@ -95,7 +95,6 @@ router.post('/client/registerPurchase',async(req,res)=>{
                 require('../index').currentPurchase.status = status;
                 require('../index').currentPurchase.extraInformation = extraInformation;
                 require('../index').currentPurchase.client = require('../index').currentClient;
-
                 res.render("./client/addProducts");    
             }
         })
