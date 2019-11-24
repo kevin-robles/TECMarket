@@ -27,6 +27,28 @@ router.get('/migration', async (req,res)=>{
     //Productos y supermercado
     var arraySuperMProduct=[];
 
+    var contadorClient =0;
+
+    while(employees.length>contadorClient){ 
+
+        var username=employees[contadorClient].username;
+        var password=employees[contadorClient].password;
+        var typeEmployee=employees[contadorClient].typeEmployee;
+
+        session2
+        .run("CREATE (n:Employee {username:'"+username+"',password:'"+password+"' , typeEmployee:'"+typeEmployee+"'})"+
+            "RETURN n")
+        .then(function(result){
+            //console.log(result.records[0]._fields[0].properties)
+        })
+        .catch(function(err){
+            console.log("hola")
+        })
+
+        contadorClient+=1;
+    }
+
+
     var contadorSupermarket=0;
     while(supermarkets.length>contadorSupermarket){ 
 
