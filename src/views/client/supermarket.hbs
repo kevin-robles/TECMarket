@@ -4,27 +4,27 @@
 
 <div class="row">
     <br><br>
-    {{#each market}}
+    {{#if market}}
     <div class="col-md-3">
         <div class="market">
             <div class="body">
                 <h5 class="name">
-                  Name :  {{name}}
+                  Name :  {{market.name}}
                 </h5>
-                <p>latitude: {{latitude}}</p>
-                <p>longitude: {{longitude}}</p>
-                <p>address: {{address}}</p>
-                <p>description: {{description}}</p>
-                <p>international Phone: {{internationalPhone}}</p>
-                <p>rating: {{rating}}</p>
-                <p>is open?: {{schedule}}</p> 
-                <p>website: {{website}}</p> 
-                <p>Photo: {{photo}}</p> 
+                <p>latitude: {{market.latitude}}</p>
+                <p>longitude: {{market.longitude}}</p>
+                <p>address: {{market.address}}</p>
+                <p>description: {{market.description}}</p>
+                <p>international Phone: {{market.internationalPhone}}</p>
+                <p>rating: {{market.rating}}</p>
+                <p>is open?: {{market.schedule}}</p> 
+                <p>website: {{market.website}}</p> 
+                <p>Photo: {{market.photo}}</p> 
             <br><br>
             </div>
         </div>
     </div>
-    {{/each}}
+    {{/if}}
 </div>
 
-<br><br><br>
+<br><br>
