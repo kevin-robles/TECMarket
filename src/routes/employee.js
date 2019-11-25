@@ -138,20 +138,8 @@ router.post('/employee/chooseSupermarket',async(req,res)=>{
                     errors
                 });
             }else{
-                var path = 'C:/saved/supermarket.jpg';
-                var thumb = new Buffer.from(market.photo,'base64');
-                fs.writeFile(path,thumb,function(err) {
-                    if(err) {
-                        console.log(err);
-                    } else {
-                        console.log(market);
-                        market.schedule = market.schedule[0].open_now;
-                        market.photo = path;
-                        res.render("employee/supermarket",{market});
-                        console.log("The file was saved!");
-                    }
-                });
-                
+                market.schedule = market.schedule[0].open_now;
+                res.render("employee/supermarket",{market});    
             }
         })
     }
